@@ -32,7 +32,7 @@ COMPRESSION='zlib'
 PRUNE='-H 24 -d 14 -w 8 -m 6'
 
 err() {
-	echo "$@"
+	echo "$@" 1>&2
 	exit 78
 }
 
