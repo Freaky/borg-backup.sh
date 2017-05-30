@@ -22,7 +22,7 @@
 # $ borg-backup.sh create
 # $ borg-backup.sh list
 # $ borg-backup.sh help
-# $ CONFIG=/etc/another-bord-backup.conf borg-backup.sh init
+# $ CONFIG=/etc/another-borg-backup.conf borg-backup.sh init
 
 set -eu
 
