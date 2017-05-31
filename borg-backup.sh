@@ -68,6 +68,7 @@ usage() {
 	echo " $0 list [backup]"
 	echo " $0 check [backup]"
 	echo " $0 prune [backup]"
+	echo " $0 break-lock [backup]"
 	echo " $0 info backup archive"
 	echo " $0 delete backup archive"
 	echo " $0 borg backup [arbitrary borg command-line]"
@@ -134,6 +135,9 @@ for B in $BACKUPS; do
 			delete)
 				[ "$nargs" -ne 3 ] && usage 64
 				$BORG delete -s -p ::"$3" || rc=$?
+			;;
+			break-lock)
+				$BORG break-lock || rc=$?
 			;;
 			borg)
 				[ "$nargs" -lt 2 ] && usage 64
