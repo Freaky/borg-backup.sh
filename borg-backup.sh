@@ -43,6 +43,8 @@
 
 set -eu
 
+BORG_BACKUP_SH_VERSION="0.5.0-pre"
+
 : "${BORG:=/usr/local/bin/borg}"
 : "${CONFIG:=/etc/borg-backup.conf}"
 COMPRESSION='zlib'
@@ -54,12 +56,15 @@ err() {
 }
 
 usage() {
-	echo "Borg:        $BORG"
-	echo "Config:      $CONFIG"
-	echo "Backups:     $BACKUPS"
-	echo "Location:    $TARGET"
-	echo "Compression: $COMPRESSION"
-	echo "Pruning:     $PRUNE"
+	echo "borg-backup.sh $BORG_BACKUP_SH_VERSION"
+	echo
+	echo "Configuration:"
+	echo "  Borg:        $BORG"
+	echo "  Config:      $CONFIG"
+	echo "  Backups:     $BACKUPS"
+	echo "  Location:    $TARGET"
+	echo "  Compression: $COMPRESSION"
+	echo "  Pruning:     $PRUNE"
 	echo
 	echo "Usage:"
 	echo " $0 help"
@@ -143,7 +148,7 @@ for B in $BACKUPS; do
 				[ "$nargs" -lt 2 ] && usage 64
 				$BORG "${@}" || rc=$?
 			;;
-			help)
+			help|--help|-h)
 				usage 0
 			;;
 			*)
