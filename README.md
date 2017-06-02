@@ -72,11 +72,7 @@ To list archives:
 
 And to extract - in this case, `/etc/rc.conf` from the `etc` backup `::etc-2017-02-21T20:00`:
 
-    $ borg-backup.sh borg etc extract ::etc-2017-02-21T20:00 etc/rc.conf --stdout
-
-The `borg` subcommand passes through the argument list to borg, having set up the
-environment for the given repository.  Refer to the [Borg documentation][4] for detailed
-usage instructions.
+    $ borg-backup.sh extract etc ::etc-2017-02-21T20:00 etc/rc.conf --stdout
 
 To prune old backups:
 
@@ -85,6 +81,10 @@ To prune old backups:
 Note if you set the server to append-only mode, this will only mark data for deletion,
 it will not free space.
 
+For any Borg operation not covered explicitly, borg-backup.sh provides a `borg`
+subcommand, which passes through the argument list to borg, having set up the
+environment for the given repository.  Refer to the [Borg documentation][4] for detailed
+usage instructions.
 
 ## Alternatives
 
