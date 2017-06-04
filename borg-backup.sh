@@ -118,19 +118,24 @@ for B in $BACKUPS; do
 		eval "DIRS=\$BACKUP_${B}"
 		case $cmd in
 			init)
+				[ "$nargs" -gt 2 ] && usage 64
 				$BORG init --encryption=repokey || rc=$?
 			;;
 			create)
+				[ "$nargs" -gt 2 ] && usage 64
 				# shellcheck disable=SC2086
 				$BORG create --exclude-caches --compression=${COMPRESSION} -v -s ::"${B}-${TIMESTAMP}" $DIRS || rc=$?
 			;;
 			list)
+				[ "$nargs" -gt 2 ] && usage 64
 				$BORG list || rc=$?
 			;;
 			check)
+				[ "$nargs" -gt 2 ] && usage 64
 				$BORG check || rc=$?
 			;;
 			prune)
+				[ "$nargs" -gt 2 ] && usage 64
 				# shellcheck disable=SC2086
 				$BORG prune -sv $PRUNE || rc=$?
 			;;
@@ -147,6 +152,7 @@ for B in $BACKUPS; do
 				$BORG extract "$@" || rc=$?
 			;;
 			break-lock)
+				[ "$nargs" -gt 2 ] && usage 64
 				$BORG break-lock || rc=$?
 			;;
 			borg)
@@ -158,7 +164,6 @@ for B in $BACKUPS; do
 			;;
 			*)
 				usage 64
-
 		esac
 	fi
 done
