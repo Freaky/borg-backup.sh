@@ -103,7 +103,7 @@ done
 
 export BORG_PASSPHRASE="$PASSPHRASE"
 
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M")
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%MZ")
 
 nargs=$#
 cmd=${1-}
