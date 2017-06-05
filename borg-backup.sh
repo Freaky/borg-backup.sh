@@ -79,7 +79,7 @@ usage() {
 	echo " $0 delete backup archive"
 	echo " $0 borg backup [arbitrary borg command-line]"
 	echo
-	echo " e.g: $0 borg etc extract ::etc-2017-02-21T20:00 etc/rc.conf --stdout"
+	echo " e.g: $0 borg etc extract ::etc-2017-02-21T20:00Z etc/rc.conf --stdout"
 	exit "$1"
 }
 
