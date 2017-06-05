@@ -70,7 +70,7 @@ To list archives:
 
     $ borg-backup.sh list
 
-And to extract - in this case, `/etc/rc.conf` from the `etc` backup `::etc-2017-02-21T20:00Z`:
+And to extract - in this case, `/etc/rc.conf` from the `etc` backup `etc-2017-02-21T20:00Z`:
 
     $ borg-backup.sh extract etc ::etc-2017-02-21T20:00Z etc/rc.conf --stdout
 
