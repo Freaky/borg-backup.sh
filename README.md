@@ -34,7 +34,7 @@ Make a borg-backup.conf from the provided template, e.g:
     COMPRESSION=lz4
     
     ###############################################################################
-    ## Optional: Prune configuration
+    ## Optional: Global prune configuration
     ##
     PRUNE='-H 24 -d 14 -w 8 -m 6'
     
@@ -50,6 +50,14 @@ Make a borg-backup.conf from the provided template, e.g:
     ##
     BACKUP_homes='/home/freaky -e /home/freaky/Maildir/mutt-cache'
     BACKUP_etc='/etc /usr/local/etc'
+    
+    ###############################################################################
+    ## Optional: Per-backup prune configuration.
+    ##
+    ## These override the global configuration for individual backups.
+    #
+    PRUNE_etc='--keep-hourly=72 --keep-daily=365'
+
 
 This will produce two independent Borg archives.  If using a remote host over SSH,
 consider [locking down the public key][2], and using [append-only mode][3] to limit
