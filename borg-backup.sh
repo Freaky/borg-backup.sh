@@ -141,11 +141,11 @@ for B in $BACKUPS; do
 			;;
 			info)
 				[ "$nargs" -ne 3 ] && usage 64
-				$BORG info ::"$3" || rc=$?
+				$BORG info ::"$1" || rc=$?
 			;;
 			delete)
 				[ "$nargs" -ne 3 ] && usage 64
-				$BORG delete -s -p ::"$3" || rc=$?
+				$BORG delete -s -p ::"$1" || rc=$?
 			;;
 			extract)
 				[ "$nargs" -lt 3 ] && usage 64
@@ -157,7 +157,7 @@ for B in $BACKUPS; do
 			;;
 			borg)
 				[ "$nargs" -lt 2 ] && usage 64
-				$BORG "${@}" || rc=$?
+				$BORG "$@" || rc=$?
 			;;
 			help|--help|-h)
 				usage 0
