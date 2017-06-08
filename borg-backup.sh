@@ -138,7 +138,7 @@ for B in $BACKUPS; do
 				[ "$nargs" -gt 2 ] && usage 64
 				eval "THIS_PRUNE=\${PRUNE_${B}-\${PRUNE}}"
 				# shellcheck disable=SC2086
-				echo $BORG prune -sv $THIS_PRUNE || rc=$?
+				$BORG prune -sv $THIS_PRUNE || rc=$?
 			;;
 			info)
 				[ "$nargs" -ne 3 ] && usage 64
