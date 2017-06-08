@@ -97,7 +97,7 @@ usage() {
 [ -z "${BACKUPS-}" ]    && err "BACKUPS not set (e.g. 'homes etc')"
 
 for B in $BACKUPS; do
-	eval "DIRS=\$BACKUP_${B}"
+	eval "DIRS=\${BACKUP_${B}-}"
 	[ -z "${DIRS}" ] && err "BACKUP_${B} not set (e.g. '/home/bla -e /home/bla/.foo')"
 done
 
