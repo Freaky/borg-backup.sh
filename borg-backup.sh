@@ -149,7 +149,7 @@ for B in $BACKUPS; do
 			;;
 			extract)
 				[ "$nargs" -lt 3 ] && usage 64
-				$BORG extract "$*" || rc=$?
+				$BORG extract "$@" || rc=$?
 			;;
 			break-lock)
 				[ "$nargs" -gt 2 ] && usage 64
