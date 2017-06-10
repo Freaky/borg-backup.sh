@@ -89,6 +89,18 @@ To prune old backups:
 Note if you set the server to append-only mode, this will only mark data for deletion,
 it will not free space.
 
+To verify the repository and all archive metadata:
+
+    $ borg-backup.sh check
+
+Or the repository and the last archive:
+
+    $ borg-backup.sh quickcheck
+
+Or only the repository (a purely server-side check):
+
+    $ borg-backup.sh repocheck
+
 For any Borg operation not covered explicitly, borg-backup.sh provides a `borg`
 subcommand, which passes through the argument list to borg, having set up the
 environment for the given repository.  Refer to the [Borg documentation][4] for detailed

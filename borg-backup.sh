@@ -43,7 +43,7 @@
 
 set -eu
 
-BORG_BACKUP_SH_VERSION="0.5.0-pre"
+BORG_BACKUP_SH_VERSION="0.6.0-pre"
 
 : "${BORG:=/usr/local/bin/borg}"
 : "${CONFIG:=/etc/borg-backup.conf}"
@@ -72,6 +72,8 @@ usage() {
 	echo " $0 create [BACKUP]"
 	echo " $0 list [BACKUP]"
 	echo " $0 check [BACKUP]"
+	echo " $0 quickcheck [BACKUP]"
+	echo " $0 repocheck [BACKUP]"
 	echo " $0 prune [BACKUP]"
 	echo " $0 break-lock [BACKUP]"
 	echo " $0 extract BACKUP [borg extract command]"
@@ -132,7 +134,15 @@ for B in $BACKUPS; do
 			;;
 			check)
 				[ "$nargs" -gt 2 ] && usage 64
-				$BORG check || rc=$?
+				$BORG check -v || rc=$?
+			;;
+			quickcheck)
+				[ "$nargs" -gt 2 ] && usage 64
+				$BORG check -v --last=1 || rc=$?
+			;;
+			repocheck)
+				[ "$nargs" -gt 2 ] && usage 64
+				$BORG check -v --repository-only || rc=$?
 			;;
 			prune)
 				[ "$nargs" -gt 2 ] && usage 64
