@@ -110,8 +110,8 @@ TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%MZ")
 nargs=$#
 cmd=${1-}
 backup=${2-}
-shift || true
-shift || true
+if [ "$#" -gt 0 ]; then shift; fi
+if [ "$#" -gt 0 ]; then shift; fi
 
 rc=0
 for B in $BACKUPS; do
