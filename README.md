@@ -27,16 +27,21 @@ Make a borg-backup.conf from the provided template, e.g:
     ###############################################################################
     ## Optional: Compression
     ##
-    ## zlib is default, and is a good compromise between space and speed
-    ## lz4 is somewhat weak, but very fast - a good choice for local backups or systems
-    ## with fast links and slow CPUs.
+    ## See 'borg help compression' for available options.
     ##
-    COMPRESSION=lz4
+    ## This script defaults to zstd as of 0.7.0.
+    ##
+    COMPRESSION='zstd'
     
     ###############################################################################
     ## Optional: Global prune configuration
     ##
     PRUNE='-H 24 -d 14 -w 8 -m 6'
+    
+    ###############################################################################
+    ## Optional: Compact threshold in percent
+    ##
+    COMPACT_THRESHOLD='10'
     
     ###############################################################################
     ## Mandatory: Backup name list
@@ -71,8 +76,8 @@ And create your initial snapshots:
 
     $ borg-backup.sh create
 
-Any time you want to make a new backup, re-run the create command.  Borg will create
-a new snapshot, adding only new data.
+Any time you want to make a new backup, re-run the create command (ideally using cron or
+other scheduler).  Borg will create a new snapshot, adding only new data.
 
 To list archives:
 
@@ -86,8 +91,9 @@ To prune old backups:
 
     $ borg-backup.sh prune
 
-Note if you set the server to append-only mode, this will only mark data for deletion,
-it will not free space.
+To recover space after one or more prune operations:
+
+    $ borg-backup.sh compact
 
 To verify the repository and all archive metadata:
 
@@ -105,6 +111,11 @@ For any Borg operation not covered explicitly, borg-backup.sh provides a `borg`
 subcommand, which passes through the argument list to borg, having set up the
 environment for the given repository.  Refer to the [Borg documentation][4] for detailed
 usage instructions.
+
+## See Also
+
+ZFS users may find [zfsnapr](https://github.com/Freaky/zfsnapr) of interest for creating
+consistent point-in-time backups from snapshots.
 
 ## Alternatives
 

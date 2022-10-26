@@ -43,12 +43,13 @@
 
 set -eu
 
-BORG_BACKUP_SH_VERSION="0.6.0-pre"
+BORG_BACKUP_SH_VERSION="0.7.0"
 
 : "${BORG:=/usr/local/bin/borg}"
 : "${CONFIG:=/etc/borg-backup.conf}"
-COMPRESSION='zlib'
+COMPRESSION='zstd'
 PRUNE='-H 24 -d 14 -w 8 -m 6'
+COMPACT_THRESHOLD='10'
 
 err() {
 	echo "$@" 1>&2
@@ -75,6 +76,7 @@ usage() {
 	echo " $0 quickcheck [BACKUP]"
 	echo " $0 repocheck [BACKUP]"
 	echo " $0 prune [BACKUP]"
+	echo " $0 compact [BACKUP]"
 	echo " $0 break-lock [BACKUP]"
 	echo " $0 extract BACKUP [borg extract command]"
 	echo " $0 info BACKUP ARCHIVE"
@@ -82,6 +84,8 @@ usage() {
 	echo " $0 borg BACKUP [arbitrary borg command-line]"
 	echo
 	echo " e.g: $0 borg etc extract ::etc-2017-02-21T20:00Z etc/rc.conf --stdout"
+	echo
+	echo "Use a BACKUP name of '--' to apply a 'borg' command to all backups"
 	exit "$1"
 }
 
@@ -115,7 +119,7 @@ if [ "$#" -gt 0 ]; then shift; fi
 
 rc=0
 for B in $BACKUPS; do
-	if [ "$nargs" -eq 1 ] || [ "$backup" = "$B" ] ; then
+	if [ "$nargs" -eq 1 ] || [ "$backup" = "--" ] || [ "$backup" = "$B" ] ; then
 		export BORG_REPO="${TARGET}/${B}.borg"
 		eval "DIRS=\$BACKUP_${B}"
 		case $cmd in
@@ -149,6 +153,11 @@ for B in $BACKUPS; do
 				eval "THIS_PRUNE=\${PRUNE_${B}-\${PRUNE}}"
 				# shellcheck disable=SC2086
 				$BORG prune -sv $THIS_PRUNE || rc=$?
+			;;
+			compact)
+				[ "$nargs" -gt 2 ] && usage 64
+				# shellcheck disable=SC2086
+				$BORG compact -v --threshold "${COMPACT_THRESHOLD}" || rc=$?
 			;;
 			info)
 				[ "$nargs" -ne 3 ] && usage 64
